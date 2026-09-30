@@ -14,18 +14,19 @@ def read_varint(stream):
         output = int.from_bytes(stream.read(8),'little')
     return output
 
-def script_type(scriptSig):
-    script_length = len(scriptSig)
-    if script_length == 25 and bytes.startswith(scriptSig,0x76a914) and bytes.endswith(scriptSig,0x88ac):
+def script_type(scriptPubKey:bytes):
+    script_length = len(scriptPubKey)
+    
+    if script_length == 25 and scriptPubKey.startswith(bytes.fromhex("76a914")) and scriptPubKey.endswith(bytes.fromhex("88ac")):
         return "P2PKH"
-    elif script_length == 23 and bytes.startswith(scriptSig,0xa914) and bytes.endswith(scriptSig,0x87):
+    elif script_length == 23 and scriptPubKey.startswith(bytes.fromhex("a914")) and scriptPubKey.endswith(bytes.fromhex("87")):
         return "P2SH"
-    elif script_length == 22 and bytes.startswith(scriptSig,0x0014):
+    elif script_length == 22 and scriptPubKey.startswith(bytes.fromhex("0014")):
         return "P2WPKH"
-    elif script_length == 34 and bytes.startswith(scriptSig,0x0020):
+    elif script_length == 34 and scriptPubKey.startswith(bytes.fromhex("0020")):
         return "P2WSH"
-    elif script_length == 34 and bytes.startswith(scriptSig,0x5120):
-        return "P2PTR"
+    elif script_length == 34 and scriptPubKey.startswith(bytes.fromhex("5120")):
+        return "P2TR"
     else:
         return "N/A"
         
