@@ -115,7 +115,7 @@ def decode_tx(tx_string):
     if not data_leftover:
         return {
             "version": version,
-            "Marker": marker,
+            "Marker": marker if marker==0 else "n/a",
             "Flag": flag if marker==0 else "n/a",
             "Input Count": input_count,
             "Inputs": v_inputs,
